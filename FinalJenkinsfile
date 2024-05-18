@@ -10,7 +10,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t subhassis27/myprojectnew:v1 .'
+                    sh 'docker build -t subhassis27/apache-test .'
                     sh 'docker images'
                 }
             }
@@ -20,14 +20,14 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     //sh "docker login -u $USER -p $PASS"
-                    sh 'docker push subhasis27/myprojectnew:v1'
+                    sh 'docker push subhasis27/apache-test'
                 }
             }
         }
         
      stage('Deploy') {
             steps {
-                    sh 'sudo docker run -itd --name My-project-con -p 8089:80 subhasis27/myprojectnew:v1'
+                    sh 'sudo docker run -itd --name My-project-con -p 8089:80 subhasis27/apache-test'
                 }   
            }
         }
